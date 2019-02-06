@@ -1,0 +1,14 @@
+@import '~@material/image-list/mdc-image-list';
+
+.masonry-image-list {
+  @include mdc-image-list-masonry-columns(3);
+  &__item { background-color: #ccc; }
+}
+
+.badge-pill {
+  margin-right: 4px;
+}
+
+main {
+  margin-top: 80px;
+}
