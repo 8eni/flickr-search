@@ -19,7 +19,7 @@ interface Photo {
 })
 export class SearchService {
 
-  newTerm: string[];
+  newTerm: string;
   apiKey = '92381dd83d844d05e8c198c87416409f';
   perPage = '20';
   baseUrl = `https://api.flickr.com/services/rest/?api_key=${this.apiKey}&format=json&nojsoncallback=1&method=flickr.photos.`;
@@ -45,8 +45,8 @@ export class SearchService {
     // Either 'any' for an OR combination of tags, or 'all' for an AND combination.
     // Defaults to 'any' if not specified
     const tagMode = this.tagModeAll ? '&tag_mode=all' : '';
-    this.newTerm = term ? term.split(' ').filter(v => v.length).join('+') : this.newTerm;
-    return this.http.get(`${this.flickrPhotoSearch}${this.searchTags}${this.newTerm}&page=${page}${tagMode}`);
+    this.newTerm = term ? term : this.newTerm;
+    return this.http.get(`${this.flickrPhotoSearch}${this.searchTags}${encodeURIComponent(this.newTerm)}&page=${page}${tagMode}`);
   }
 
   getPhotos(searchResults): Observable<{}[]> {
