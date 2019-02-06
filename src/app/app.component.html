@@ -5,6 +5,7 @@
 
   <flkr-header
     (searchTerm)="searchTerm$.next($event.target.value)"
+    (tagModeAll)="tagModeAll($event)"
     [placeholderText]="placeholder"
     [loading]="loadingInit">
   </flkr-header>

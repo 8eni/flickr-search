@@ -7,14 +7,15 @@ header {
   padding: 11px;
   margin-bottom: 10px;
   z-index: 9;
-  section#search-bar {
+  .input-group-append {
     position: relative;
     .spinner-border {
       position: absolute;
       top: 5px;
-      right: 25px;
+      left: -35px;
       width: 28px;
       height: 28px;
+      z-index: 9;
     }
   }
 }

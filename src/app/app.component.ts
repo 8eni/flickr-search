@@ -25,6 +25,10 @@ export class AppComponent {
     this.getAllPhotos(this.count, this.searchTerm$);
   }
 
+  tagModeAll(e) {
+    this.searchService.tagModeAll = e;
+  }
+
   getAllPhotos(page, searchTerm) {
     this.results = [];
     this.searchService.search(page, searchTerm).subscribe((results: any) => {

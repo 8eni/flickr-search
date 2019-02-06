@@ -27,6 +27,7 @@ export class SearchService {
   flickrPhotoGetInfo = `${this.baseUrl}getInfo`;
   searchTags = `&per_page=${this.perPage}&tags=`;
   searchPhotoId = `&photo_id=`;
+  tagModeAll: false;
 
   constructor(
     private http: HttpClient
@@ -41,8 +42,11 @@ export class SearchService {
   }
 
   searchEntries(page: number, term = null): Observable<{}> {
+    // Either 'any' for an OR combination of tags, or 'all' for an AND combination.
+    // Defaults to 'any' if not specified
+    const tagMode = this.tagModeAll ? '&tag_mode=all' : '';
     this.newTerm = term ? term.split(' ').filter(v => v.length).join('+') : this.newTerm;
-    return this.http.get(`${this.flickrPhotoSearch}${this.searchTags}${this.newTerm}&page=${page}`);
+    return this.http.get(`${this.flickrPhotoSearch}${this.searchTags}${this.newTerm}&page=${page}${tagMode}`);
   }
 
   getPhotos(searchResults): Observable<{}[]> {
