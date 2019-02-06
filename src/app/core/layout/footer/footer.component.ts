@@ -5,7 +5,9 @@ import { Component, Input } from '@angular/core';
   template: `
     <footer>
       <div class="container">
-        <p *ngIf="resultCount > 0">Showing: {{resultCount}}/{{totalCount}} results</p>
+        <h5 class="font-weight-light" *ngIf="resultCount > 0">
+          Showing <span class="font-weight-bold">{{resultCount}}</span>/{{totalCount}} results
+          </h5>
       </div>
     </footer>
   `,
@@ -16,7 +18,8 @@ import { Component, Input } from '@angular/core';
       width: 100%;
       background: #2b2b2b;
       color: white;
-      padding: 10px;
+      padding: 15px 0 5px;
+      min-height: 60px;
     }
   `]
 })

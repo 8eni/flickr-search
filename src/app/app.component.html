@@ -1,3 +1,6 @@
+  
+<main>
+  
   <flkr-loading [loading]="loadingScroll"></flkr-loading>
 
   <flkr-header
@@ -6,7 +9,6 @@
     [loading]="loadingInit">
   </flkr-header>
   
-  <main>
     <section 
       class="container search-results"
       *ngIf="total > 0"
@@ -15,27 +17,14 @@
 
       <ul *ngIf="results" class="mdc-image-list mdc-image-list--masonry masonry-image-list">
         <li *ngFor="let result of results" class="mdc-image-list__item card">
-          <figure>
-            <img class="mdc-image-list__image card-img-top"
-              [src]="result.thumbUrl" 
-              alt="{{result.description}}">
-            <figcaption class="card-body">
-              <h5 class="card-title">{{ result.title }}</h5>
-              <h6 class="card-subtitle mb-2 text-muted"><i>by </i>{{result.owner}} <span class="float-right">{{result.dateTaken}}</span></h6>
-              <hr>
-              <span *ngFor="let tag of result.tags" class="badge badge-pill badge-light">{{ tag }} </span>
-              <hr>
-              <a class="card-link" href="{{ result.link }}" target="_blank" *ngIf="result.link">View 
-                <span *ngIf="result.title">"{{ result.title }}"</span> on flickr
-              </a>
-            </figcaption>
-          </figure>
+          <flkr-card [result]="result"></flkr-card>
         </li>
       </ul>
     </section>
-  </main>
 
   <flkr-footer
     [resultCount]="results.length"
     [totalCount]="total">
   </flkr-footer>
+
+</main>

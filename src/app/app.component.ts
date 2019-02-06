@@ -8,29 +8,20 @@ import { Subject } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'flickr';
   total: number;
   results: any[];
   count = 1;
   searchTerm$ = new Subject<string>();
-  searchScrollTerm: string;
 
-  storeResults: any;
+  // storeResults: any;
 
-  // Stuff for infinite
-  array = [];
-  sum = 20;
-  throttle = 300;
-  scrollDistance = 1;
-  scrollUpDistance = 2;
-  direction = '';
-  modalOpen = false;
   loadingInit = false;
   loadingScroll = false;
   placeholder = 'Add space to seperate tags e.g. ocean drive';
-  // Infinite ends
 
-  constructor(private searchService: SearchService) {
+  constructor(
+    private searchService: SearchService
+  ) {
     this.getAllPhotos(this.count, this.searchTerm$);
   }
 
@@ -39,7 +30,7 @@ export class AppComponent {
     this.searchService.search(page, searchTerm).subscribe((results: any) => {
       this.loadingInit = true;
       this.count = 1;
-      this.storeResults = results;
+      // this.storeResults = results;
       if (results && results.photos) { this.total = results.photos.total; }
       this.searchService.getPhotos(results).subscribe(res => {
         // console.log('res ', res);
@@ -57,7 +48,7 @@ export class AppComponent {
     });
   }
 
-  onScrollDown () {
+  onScrollDown() {
     this.searchService.searchEntries(++this.count).subscribe(results => {
       this.loadingScroll = true;
       this.getPaginatedResults(results);
