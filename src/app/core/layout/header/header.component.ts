@@ -17,7 +17,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
                 type="button"
                 (click)="updateTagMode()">All tags required
               </button>
-              <div class="spinner-border text-dark" role="status" *ngIf="loading">
+              <div class="spinner-border text-dark" role="status" [hidden]="noResults" *ngIf="loading">
                 <span class="sr-only">Loading...</span>
               </div>
             </div>
@@ -31,6 +31,7 @@ export class HeaderComponent {
 
   @Input() placeholderText: string;
   @Input() loading = false;
+  @Input() noResults: boolean;
   @Output() searchTerm: EventEmitter<string> = new EventEmitter<string>();
   @Output() tagModeAll: EventEmitter<boolean> = new EventEmitter<boolean>();
 

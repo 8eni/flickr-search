@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { HeaderComponent } from './core/layout/header/header.component';
 import { FooterComponent } from './core/layout/footer/footer.component';
-import { LoadingComponent } from './shared/loading/loading.component';
+import { SearchStateComponent } from './shared/search-state/search-state.component';
 import { CardComponent } from './shared/card/card.component';
 
 @NgModule({
@@ -14,7 +14,7 @@ import { CardComponent } from './shared/card/card.component';
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    LoadingComponent,
+    SearchStateComponent,
     CardComponent
   ],
   imports: [

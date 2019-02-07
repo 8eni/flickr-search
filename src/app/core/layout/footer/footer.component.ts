@@ -5,7 +5,7 @@ import { Component, Input } from '@angular/core';
   template: `
     <footer>
       <div class="container">
-        <h5 class="font-weight-light" *ngIf="resultCount > 0">
+        <h5 class="font-weight-light" [hidden]="noResults" *ngIf="resultCount > 0">
           Showing <span class="font-weight-bold">{{resultCount}}</span>/{{totalCount}} results
           </h5>
       </div>
@@ -27,5 +27,6 @@ export class FooterComponent {
 
   @Input() resultCount: number;
   @Input() totalCount: number;
+  @Input() noResults: boolean;
 
 }

@@ -1,12 +1,28 @@
   
 <main>
   
-  <flkr-loading [loading]="loadingScroll"></flkr-loading>
+  <flkr-search-state
+    [stateCondition]="results.length === 0"
+    [stateText]="'Enter tags seperated by commas'">
+  </flkr-search-state>
+  
+  <flkr-search-state
+    [stateCondition]="loadingScroll"
+    [stateClass]="'blackout'"
+    [stateText]="'Loading more results'">
+  </flkr-search-state>
+
+  <flkr-search-state
+    [stateCondition]="noResults"
+    [stateText]="'Sorry no results for this search'">
+  </flkr-search-state>
+
 
   <flkr-header
     (searchTerm)="searchTerm$.next($event.target.value)"
     (tagModeAll)="tagModeAll($event)"
     [placeholderText]="placeholder"
+    [noResults]="noResults"
     [loading]="loadingInit">
   </flkr-header>
   
@@ -25,6 +41,7 @@
 
   <flkr-footer
     [resultCount]="results.length"
+    [noResults]="noResults"
     [totalCount]="total">
   </flkr-footer>
 
