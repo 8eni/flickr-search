@@ -16,7 +16,7 @@ export class AppComponent {
 
   loadingInit = false;
   loadingScroll = false;
-  placeholder = 'Add space to seperate tags e.g. ocean drive';
+  placeholder = 'Example: ocean, blue, galway';
 
   constructor(
     private searchService: SearchService
