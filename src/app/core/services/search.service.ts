@@ -56,13 +56,10 @@ export class SearchService {
   }
 
   formatPhoto(response): Photo[] {
-    const result =  Object.keys(response).reduce((results, item: string, i) => {
+    return Object.keys(response).reduce((results, item: string, i) => {
       results[i] = this.getPhotoObject(response[item].photo);
       return results;
     }, []);
-    console.log('l ', result.length);
-    
-    return result;
   }
 
   getPhotoObject(data): Photo {

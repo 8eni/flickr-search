@@ -14,8 +14,6 @@ export class AppComponent {
   searchTerm$ = new Subject<string>();
   noResults: boolean;
 
-  // storeResults: any;
-
   loadingInit = false;
   loadingScroll = false;
   placeholder = 'Add space to seperate tags e.g. ocean drive';
@@ -42,7 +40,6 @@ export class AppComponent {
   getAllPhotos(page, searchTerm) {
     this.results = [];
     this.searchService.search(page, searchTerm).subscribe((results: any) => {
-      console.log('res ', results.photos.total);
       this.noResults = this.noResultsFromSearch(results.photos.total, this.results);
       this.loadingInit = true;
       this.count = 1;
@@ -50,7 +47,6 @@ export class AppComponent {
       this.searchService.getPhotos(results).subscribe(res => {
         this.results = this.searchService.formatPhoto(res);
         this.loadingInit = false;
-        // console.log('results ', this.results);
       });
     });
   }
