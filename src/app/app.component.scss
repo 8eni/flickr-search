@@ -1,11 +1,37 @@
 @import '~@material/image-list/mdc-image-list';
 
-.masonry-image-list {
-  @include mdc-image-list-masonry-columns(4);
-  &__item { background-color: #ccc; }
-}
-
 main {
   margin: 60px 0 0 0;
   padding: 20px 0;
 }
+
+.masonry-image-list {
+  @include mdc-image-list-masonry-columns(1);
+}
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) { 
+  .masonry-image-list {
+    @include mdc-image-list-masonry-columns(2);
+  }
+ }
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) { 
+  .masonry-image-list {
+    @include mdc-image-list-masonry-columns(3);
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) { 
+  .masonry-image-list {
+    @include mdc-image-list-masonry-columns(4);
+  }
+}
+
+@media (min-width: 1200px) { 
+  .masonry-image-list {
+    @include mdc-image-list-masonry-columns(4);
+  }
+}
+
