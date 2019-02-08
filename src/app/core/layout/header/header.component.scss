@@ -17,5 +17,16 @@ header {
       height: 28px;
       z-index: 9;
     }
+    p {
+      margin: 0;
+      line-height: 38px;
+      padding: 0 12px 0 24px;
+      font-style: italic;
+      color: #888;
+    }
   }
 }
+// Small devices (landscape phones, 576px and down)
+@media (max-width: 576px) { 
+  .input-group-append p { display: none; }
+ }

@@ -12,11 +12,19 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
               class="form-control input-lg"
               aria-label="Search by tags">
             <div class="input-group-append">
-              <button
-                [ngClass]="(tagMode ? 'active' : '') + ' btn btn-outline-secondary'"
-                type="button"
-                (click)="updateTagMode()">All tags required
-              </button>
+              <p>tags required?</p>
+              <div class="btn-group btn-group-toggle">
+                <button
+                  [ngClass]="(tagMode ? '' : 'active') + ' btn btn-secondary'"
+                  type="button"
+                  (click)="updateTagMode()">Any
+                </button>
+                <button
+                  [ngClass]="(!tagMode ? '' : 'active') + ' btn btn-secondary'"
+                  type="button"
+                  (click)="updateTagMode()">All
+                </button>
+              </div>
               <div class="spinner-border text-dark" role="status" [hidden]="noResults" *ngIf="loading">
                 <span class="sr-only">Loading...</span>
               </div>
