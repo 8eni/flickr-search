@@ -12,19 +12,20 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
               class="form-control input-lg"
               aria-label="Search by tags">
             <div class="input-group-append">
-              <p>tags required?</p>
+              <p class="text-right padding-left">Must include </p>
               <div class="btn-group btn-group-toggle">
                 <button
                   [ngClass]="(tagMode ? '' : 'active') + ' btn btn-secondary'"
                   type="button"
-                  (click)="updateTagMode()">Any
+                  (click)="updateTagMode(false)">any
                 </button>
                 <button
                   [ngClass]="(!tagMode ? '' : 'active') + ' btn btn-secondary'"
                   type="button"
-                  (click)="updateTagMode()">All
+                  (click)="updateTagMode(true)">all
                 </button>
               </div>
+              <p> tags</p>
               <div class="spinner-border text-dark" role="status" [hidden]="noResults" *ngIf="loading">
                 <span class="sr-only">Loading...</span>
               </div>
@@ -36,6 +37,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class HeaderComponent {
   tagMode = false;
+  tagText = 'any';
 
   @Input() placeholderText: string;
   @Input() loading = false;
@@ -47,8 +49,9 @@ export class HeaderComponent {
     this.searchTerm.emit(value);
   }
 
-  updateTagMode(): void {
-    this.tagMode = !this.tagMode;
+  updateTagMode(tagModeAll): void {
+    this.tagMode = tagModeAll;
+    this.tagText = this.tagMode ? 'all' : 'any';
     this.tagModeAll.emit(this.tagMode);
   }
 
