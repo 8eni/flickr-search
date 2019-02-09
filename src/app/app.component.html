@@ -2,14 +2,14 @@
 <main>
   
   <flkr-search-state
-    [stateCondition]="results.length === 0"
+    [stateCondition]="currentResults.length === 0"
     [stateText]="'Enter tags seperated by commas'">
   </flkr-search-state>
   
   <flkr-search-state
     [stateCondition]="loadingScroll"
-    [stateClass]="'blackout'"
-    [stateText]="'Loading more results'">
+    [stateText]="'Loading more results'"
+    [stateClass]="'blackout'">
   </flkr-search-state>
 
   <flkr-search-state
@@ -20,7 +20,7 @@
 
   <flkr-header
     (searchTerm)="searchTerm$.next($event.target.value)"
-    (tagModeAll)="tagModeAll($event)"
+    (searchTagMode)="searchTagMode($event)"
     [placeholderText]="placeholder"
     [noResults]="noResults"
     [loading]="loadingInit">
@@ -28,21 +28,21 @@
   
     <section 
       class="container search-results"
-      *ngIf="total > 0"
+      *ngIf="totalResults > 0"
       infinite-scroll
       (scrolled)="onScrollDown()">
 
-      <ul *ngIf="results" class="mdc-image-list mdc-image-list--masonry masonry-image-list">
-        <li *ngFor="let result of results" class="mdc-image-list__item card">
+      <ul *ngIf="currentResults" class="mdc-image-list mdc-image-list--masonry masonry-image-list">
+        <li *ngFor="let result of currentResults" class="mdc-image-list__item card">
           <flkr-card [result]="result"></flkr-card>
         </li>
       </ul>
     </section>
 
   <flkr-footer
-    [resultCount]="results.length"
+    [resultCount]="currentResults.length"
     [noResults]="noResults"
-    [totalCount]="total">
+    [totalCount]="totalResults">
   </flkr-footer>
 
 </main>

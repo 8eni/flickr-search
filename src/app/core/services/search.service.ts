@@ -33,13 +33,26 @@ export class SearchService {
     private http: HttpClient
   ) { }
 
-  search(page: number, terms: Observable<string>) {
+  searchBarActivity(page: number, terms: Observable<string>) {
     return terms.pipe(
       debounce(() => timer(400)),
       distinctUntilChanged(),
       switchMap(term => this.searchEntries(page, term))
     );
   }
+
+  // getAllPhotosInfo(results, currentResults, loading, scroll = false) {
+  //   this.getPhotos(results).subscribe(res => {
+  //     loading = false;
+  //     if (scroll) {
+  //       // this.loadingScroll = false;
+  //       currentResults = currentResults ? [ ...currentResults, ...this.formatPhoto(res) ] : this.formatPhoto(res);
+  //     } else {
+  //       currentResults = this.formatPhoto(res);
+  //       // this.loadingInit = false;
+  //     }
+  //   });
+  // }
 
   searchEntries(page: number, term = null): Observable<{}> {
     // Either 'any' for an OR combination of tags, or 'all' for an AND combination.

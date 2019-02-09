@@ -43,7 +43,7 @@ export class HeaderComponent {
   @Input() loading = false;
   @Input() noResults: boolean;
   @Output() searchTerm: EventEmitter<string> = new EventEmitter<string>();
-  @Output() tagModeAll: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() searchTagMode: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   updateTerm(value: string): void {
     this.searchTerm.emit(value);
@@ -52,7 +52,7 @@ export class HeaderComponent {
   updateTagMode(tagModeAll): void {
     this.tagMode = tagModeAll;
     this.tagText = this.tagMode ? 'all' : 'any';
-    this.tagModeAll.emit(this.tagMode);
+    this.searchTagMode.emit(this.tagMode);
   }
 
 }

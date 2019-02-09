@@ -8,9 +8,9 @@ import { Subject } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  total: number;
-  results: any[];
-  count = 1;
+  totalResults: number;
+  currentResults: any[] = [];
+  resultsPageNum = 1;
   searchTerm$ = new Subject<string>();
   noResults: boolean;
 
@@ -21,48 +21,59 @@ export class AppComponent {
   constructor(
     private searchService: SearchService
   ) {
-    this.getAllPhotos(this.count, this.searchTerm$);
+    this.initSearchBar(this.resultsPageNum, this.searchTerm$);
   }
 
-  tagModeAll(e): void {
-    this.searchService.tagModeAll = e;
+  searchTagMode(mode): void {
+    this.searchService.tagModeAll = mode;
   }
 
-  noResultsFromSearch(total: string, results): boolean {
+  initSearchBar(page, searchTerm) {
+    this.searchService.searchBarActivity(page, searchTerm).subscribe((results: any) => {
+      this.setConfiguration(results);
+      this.getAllPhotos(results);
+    });
+  }
+
+  setConfiguration(searchResults) {
+    this.resultsPageNum = 1;
+    this.loadingInit = true;
+    this.noResults = this.setNoResultsFromSearch(searchResults.photos.total, this.currentResults);
+    if (searchResults && searchResults.photos) { this.totalResults = searchResults.photos.total; }
+  }
+
+  getAllPhotos(results, scroll = false) {
+    this.searchService.getPhotos(results).subscribe(res => {
+      this.currentResults = (scroll) ?
+        this.getAllPhotosFromScroll(res, this.currentResults) :
+        this.getAllPhotosFromSearch(res);
+    });
+  }
+
+  getAllPhotosFromScroll(response, currentResults) {
+    this.loadingScroll = false;
+    return currentResults ? [ ...currentResults, ...this.searchService.formatPhoto(response) ] : this.searchService.formatPhoto(response);
+  }
+
+  getAllPhotosFromSearch(response) {
+    this.loadingInit = false;
+    return this.searchService.formatPhoto(response);
+  }
+
+  onScrollDown() {
+    this.searchService.searchEntries(++this.resultsPageNum).subscribe(results => {
+      this.loadingScroll = true;
+      this.getAllPhotos(results, true);
+    });
+  }
+
+  setNoResultsFromSearch(total: string, results): boolean {
     if (parseInt(total, 10) === 0) {
       results = [];
       return true;
     } else {
       return false;
     }
-  }
-
-  getAllPhotos(page, searchTerm) {
-    this.results = [];
-    this.searchService.search(page, searchTerm).subscribe((results: any) => {
-      this.noResults = this.noResultsFromSearch(results.photos.total, this.results);
-      this.loadingInit = true;
-      this.count = 1;
-      if (results && results.photos) { this.total = results.photos.total; }
-      this.searchService.getPhotos(results).subscribe(res => {
-        this.results = this.searchService.formatPhoto(res);
-        this.loadingInit = false;
-      });
-    });
-  }
-
-  getPaginatedResults(results) {
-    this.searchService.getPhotos(results).subscribe(res => {
-      this.results = this.results ? [ ...this.results, ...this.searchService.formatPhoto(res) ] : this.searchService.formatPhoto(res);
-      this.loadingScroll = false;
-    });
-  }
-
-  onScrollDown() {
-    this.searchService.searchEntries(++this.count).subscribe(results => {
-      this.loadingScroll = true;
-      this.getPaginatedResults(results);
-    });
   }
 
 }
