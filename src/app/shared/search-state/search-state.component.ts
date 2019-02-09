@@ -3,7 +3,9 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'flkr-search-state',
   template: `
-    <section class="state {{stateClass}}" *ngIf="stateCondition"><strong>{{stateText}}...</strong></section>
+    <section class="state {{stateClass}}" *ngIf="stateCondition">
+      <strong>{{stateText}}...</strong>
+    </section>
   `,
   styles: [`
     .state {
@@ -13,7 +15,6 @@ import { Component, Input } from '@angular/core';
       height: 100%;
       z-index: 8;
       text-align: center;
-      line-height: 290px;
       font-size: 21px;
       color: #888;
       text-transform: uppercase;
@@ -21,6 +22,10 @@ import { Component, Input } from '@angular/core';
     .blackout {
       background-color: rgba(0, 0, 0, 0.8);
       color: white;
+    }
+    .state strong {
+      padding: 200px 10px 0;
+      display: inherit;
     }
   `]
 })
