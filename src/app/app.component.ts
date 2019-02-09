@@ -32,13 +32,6 @@ export class AppComponent {
     });
   }
 
-  setConfiguration(searchResults) {
-    this.resultsPageNum = 1;
-    this.loadingInit = true;
-    this.noResults = this.setNoResultsFromSearch(searchResults.photos.total, this.currentResults);
-    if (searchResults && searchResults.photos) { this.totalResults = searchResults.photos.total; }
-  }
-
   getAllPhotos(results, scroll = false) {
     this.searchService.getPhotos(results).subscribe(res => {
       this.currentResults = (scroll) ?
@@ -50,8 +43,8 @@ export class AppComponent {
   getAllPhotosFromScroll(response, currentResults) {
     this.loadingScroll = false;
     return currentResults ?
-    [ ...currentResults, ...this.searchService.formatResults(response) ] :
-    this.searchService.formatResults(response);
+      [ ...currentResults, ...this.searchService.formatResults(response) ] :
+      this.searchService.formatResults(response);
   }
 
   getAllPhotosFromSearch(response) {
@@ -64,6 +57,13 @@ export class AppComponent {
       this.loadingScroll = true;
       this.getAllPhotos(results, true);
     });
+  }
+
+  setConfiguration(searchResults) {
+    this.resultsPageNum = 1;
+    this.loadingInit = true;
+    this.noResults = this.setNoResultsFromSearch(searchResults.photos.total, this.currentResults);
+    this.totalResults = (searchResults && searchResults.photos) && searchResults.photos.total;
   }
 
   setSearchTagMode(mode): void {

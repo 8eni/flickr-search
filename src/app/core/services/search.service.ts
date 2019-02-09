@@ -6,7 +6,6 @@ import { environment } from '@env/environment';
 import { Observable, forkJoin, timer } from 'rxjs';
 import { debounce, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
-
 @Injectable({
   providedIn: 'root'
 })
