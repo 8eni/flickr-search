@@ -2,7 +2,7 @@
 <main>
   
   <flkr-search-state
-    [stateCondition]="currentResults.length === 0"
+    [stateCondition]="currentResults.length === 0 && !loadingInit"
     [stateText]="'Enter tags seperated by commas'">
   </flkr-search-state>
   
