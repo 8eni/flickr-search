@@ -15,7 +15,7 @@ npm install
 To start the application run the below command and view in the browser at [http://localhost:4200](http://localhost:4200).
 
 ```bash
-ng start
+npm run start
 ```
 
 ## Contributing
