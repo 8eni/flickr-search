@@ -20,7 +20,7 @@
 
   <flkr-header
     (searchTerm)="searchTerm$.next($event.target.value)"
-    (searchTagMode)="searchTagMode($event)"
+    (searchTagMode)="setSearchTagMode($event)"
     [placeholderText]="placeholder"
     [noResults]="noResults"
     [loading]="loadingInit">

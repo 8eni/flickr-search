@@ -1,65 +1,41 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Photo } from '@app/core/models/photo';
+import { environment } from '@env/environment';
 
 import { Observable, forkJoin, timer } from 'rxjs';
 import { debounce, distinctUntilChanged, switchMap } from 'rxjs/operators';
 
-interface Photo {
-  thumbUrl: string;
-  link: string;
-  title: string;
-  tags: string[];
-  description: string;
-  owner: string;
-  dateTaken: Date;
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchService {
 
+  apiKey = environment.flickrApiKey;
+  apiUrl = environment.flickrApiUrl;
+  baseUrl = `${this.apiUrl}?api_key=${this.apiKey}&format=json&nojsoncallback=1&method=flickr.photos.`;
+  flickrPhotoSearch = `${this.baseUrl}search&per_page=20&tags=`;
+  flickrPhotoGetInfo = `${this.baseUrl}getInfo&photo_id=`;
   newTerm: string;
-  apiKey = '92381dd83d844d05e8c198c87416409f';
-  perPage = '20';
-  baseUrl = `https://api.flickr.com/services/rest/?api_key=${this.apiKey}&format=json&nojsoncallback=1&method=flickr.photos.`;
-  flickrPhotoSearch = `${this.baseUrl}search`;
-  flickrPhotoGetInfo = `${this.baseUrl}getInfo`;
-  searchTags = `&per_page=${this.perPage}&tags=`;
-  searchPhotoId = `&photo_id=`;
   tagModeAll: false;
 
   constructor(
     private http: HttpClient
   ) { }
 
-  searchBarActivity(page: number, terms: Observable<string>) {
+  searchBarInteraction(page: number, terms: Observable<string>) {
     return terms.pipe(
       debounce(() => timer(400)),
       distinctUntilChanged(),
-      switchMap(term => this.searchEntries(page, term))
+      switchMap(term => this.getSearchResults(page, term))
     );
   }
 
-  // getAllPhotosInfo(results, currentResults, loading, scroll = false) {
-  //   this.getPhotos(results).subscribe(res => {
-  //     loading = false;
-  //     if (scroll) {
-  //       // this.loadingScroll = false;
-  //       currentResults = currentResults ? [ ...currentResults, ...this.formatPhoto(res) ] : this.formatPhoto(res);
-  //     } else {
-  //       currentResults = this.formatPhoto(res);
-  //       // this.loadingInit = false;
-  //     }
-  //   });
-  // }
-
-  searchEntries(page: number, term = null): Observable<{}> {
-    // Either 'any' for an OR combination of tags, or 'all' for an AND combination.
-    // Defaults to 'any' if not specified
+  getSearchResults(page: number, term = null): Observable<{}> {
     const tagMode = this.tagModeAll ? '&tag_mode=all' : '';
     this.newTerm = term ? term : this.newTerm;
-    return this.http.get(`${this.flickrPhotoSearch}${this.searchTags}${encodeURIComponent(this.newTerm)}&page=${page}${tagMode}`);
+    return this.http.get(`${this.flickrPhotoSearch}${encodeURIComponent(this.newTerm)}&page=${page}${tagMode}`);
   }
 
   getPhotos(searchResults): Observable<{}[]> {
@@ -68,14 +44,14 @@ export class SearchService {
     ) );
   }
 
-  formatPhoto(response): Photo[] {
+  formatResults(response): Photo[] {
     return Object.keys(response).reduce((results, item: string, i) => {
-      results[i] = this.getPhotoObject(response[item].photo);
+      results[i] = this.formatPhoto(response[item].photo);
       return results;
     }, []);
   }
 
-  getPhotoObject(data): Photo {
+  formatPhoto(data): Photo {
     return {
       thumbUrl: `https://farm${data.farm}.staticflickr.com/${data.server}/${data.id}_${data.secret}_n.jpg`,
       link: data.urls.url[0]._content,

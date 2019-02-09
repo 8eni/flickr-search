@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+
   totalResults: number;
   currentResults: any[] = [];
   resultsPageNum = 1;
@@ -24,12 +25,8 @@ export class AppComponent {
     this.initSearchBar(this.resultsPageNum, this.searchTerm$);
   }
 
-  searchTagMode(mode): void {
-    this.searchService.tagModeAll = mode;
-  }
-
   initSearchBar(page, searchTerm) {
-    this.searchService.searchBarActivity(page, searchTerm).subscribe((results: any) => {
+    this.searchService.searchBarInteraction(page, searchTerm).subscribe((results: any) => {
       this.setConfiguration(results);
       this.getAllPhotos(results);
     });
@@ -52,19 +49,25 @@ export class AppComponent {
 
   getAllPhotosFromScroll(response, currentResults) {
     this.loadingScroll = false;
-    return currentResults ? [ ...currentResults, ...this.searchService.formatPhoto(response) ] : this.searchService.formatPhoto(response);
+    return currentResults ?
+    [ ...currentResults, ...this.searchService.formatResults(response) ] :
+    this.searchService.formatResults(response);
   }
 
   getAllPhotosFromSearch(response) {
     this.loadingInit = false;
-    return this.searchService.formatPhoto(response);
+    return this.searchService.formatResults(response);
   }
 
   onScrollDown() {
-    this.searchService.searchEntries(++this.resultsPageNum).subscribe(results => {
+    this.searchService.getSearchResults(++this.resultsPageNum).subscribe(results => {
       this.loadingScroll = true;
       this.getAllPhotos(results, true);
     });
+  }
+
+  setSearchTagMode(mode): void {
+    this.searchService.tagModeAll = mode;
   }
 
   setNoResultsFromSearch(total: string, results): boolean {

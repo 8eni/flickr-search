@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  flickrApiKey: '92381dd83d844d05e8c198c87416409f',
+  flickrApiUrl: 'https://api.flickr.com/services/rest/'
 };
 
 /*
