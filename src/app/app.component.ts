@@ -63,7 +63,7 @@ export class AppComponent {
     this.resultsPageNum = 1;
     this.loadingInit = true;
     this.noResults = this.setNoResultsFromSearch(searchResults.photos.total, this.currentResults);
-    this.totalResults = (searchResults && searchResults.photos) && searchResults.photos.total;
+    this.totalResults = (searchResults && searchResults.photos) && parseInt(searchResults.photos.total, 10);
   }
 
   setSearchTagMode(mode): void {

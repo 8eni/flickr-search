@@ -29,7 +29,7 @@
       class="container search-results"
       *ngIf="totalResults > 0"
       infinite-scroll
-      (scrolled)="onScrollDown()">
+      (scrolled)="(currentResults.length !== totalResults) && onScrollDown()">
 
       <ul *ngIf="currentResults" class="mdc-image-list mdc-image-list--masonry masonry-image-list">
         <li *ngFor="let result of currentResults" class="mdc-image-list__item card">
