@@ -2,6 +2,8 @@
 
 The application uses [flickrs api](https://www.flickr.com/services/api/) to return results based on "tags" entered. The results are displayed in a mobile first masonary styled layout. On scroll of view the application loads more results for search query using infinite scroll.
 
+![Desktop View](http://bennirussell.com/desktop_view.png)
+
 ## Prerequisites
 [Node.js](https://nodejs.org/en/) is required to run the application.
 
